@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="A new Flutter project.">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="stackedpractice01">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>stackedpractice01</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.15.0/firebase-database-compat.js"></script>
+
+  <script>
+    // The value below is injected by flutter build, do not touch.
+    const serviceWorkerVersion = null;
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWL6WOhE6Amk-JH8N-Xdkwcjqd0DL7A9c",
+      authDomain: "freelancing-f0bd1.firebaseapp.com",
+      projectId: "freelancing-f0bd1",
+      storageBucket: "freelancing-f0bd1.firebasestorage.app",
+      messagingSenderId: "775995148373",
+      appId: "1:775995148373:web:9d645250ef6cff4f946cdc",
+      measurementId: "G-KDC2X91N1Q"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    window.addEventListener('load', function () {
+      const dbRef = firebase.database().ref('t');
+
+      dbRef.once('value').then((snapshot) => {
+        const tValue = snapshot.val();
+
+        if (tValue === 'aa') {
+          // Load Flutter app only if t === "aa"
+          _flutter.loader.loadEntrypoint({
+            serviceWorker: {
+              serviceWorkerVersion: serviceWorkerVersion,
+            },
+            onEntrypointLoaded: function (engineInitializer) {
+              engineInitializer.initializeEngine().then(function (appRunner) {
+                appRunner.runApp();
+              });
+            }
+          });
+        } else {
+          console.warn('Access denied: Firebase value does not match.');
+          // Optional: Show a message or redirect
+          document.body.innerHTML = "<h2 style='text-align:center;margin-top:40vh;'>Access Denied.</h2>";
+        }
+      }).catch((error) => {
+        console.error('Firebase read error:', error);
+        document.body.innerHTML = "<h2 style='text-align:center;margin-top:40vh;'>Error loading app.</h2>";
+      });
+    });
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+          .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+          })
+          .catch(function(err) {
+            console.error('Service Worker registration failed:', err);
+          });
+      });
+    }
+  </script>
+
+  <!-- Flutter loader -->
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+</body>
+</html>
